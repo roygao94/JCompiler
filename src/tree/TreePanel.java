@@ -104,7 +104,7 @@ public class TreePanel extends JPanel {
 	 * 递归绘制整棵树
 	 *
 	 * @param n    被绘制的Node
-	 * @param xPos 根节点的绘制X位置
+	 * @param x 根节点的绘制X位置
 	 * @param g    绘图上下文环境
 	 */
 	public void drawAllNode(Node n, int x, Graphics g) {
