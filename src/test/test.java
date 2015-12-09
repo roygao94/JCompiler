@@ -16,6 +16,8 @@ import java.util.Stack;
 public class test {
 
 	// I'm another comment!
+	// Hello, Kevin, this is a comment.
+
 	public static void main(String[] args) throws IOException {
 		List<Pair<String, String>> list = Lexer.scan("source.txt");
 		System.out.println(list.size());
