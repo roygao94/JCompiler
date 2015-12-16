@@ -19,7 +19,7 @@ public class Lexer {
 	private static final String DEL = "delimeter";
 	private static final String NUM = "number";
 
-	private static final Set<String> keywords = new HashSet<String>() {{
+	public static final Set<String> keywords = new HashSet<String>() {{
 		add("int");
 		add("real");
 		add("if");
@@ -28,7 +28,7 @@ public class Lexer {
 		add("while");
 	}};
 
-	private static final Set<Character> operators = new HashSet<Character>() {{
+	public static final Set<Character> operators = new HashSet<Character>() {{
 		add('+');
 		add('-');
 		add('/');
@@ -39,7 +39,7 @@ public class Lexer {
 		add('!');
 	}};
 
-	private static final Set<Character> delimeters = new HashSet<Character>() {{
+	public static final Set<Character> delimeters = new HashSet<Character>() {{
 		add('(');
 		add(')');
 		add('{');
