@@ -134,9 +134,8 @@ public class Syntax {
 		String tmp_output_info = "";
 
 		//读取文件
-		Lexer lexer = new Lexer("test.txt");
-		List<Pair<String, String>> list = lexer.getCodeList();
-		List<List<String>> codeTable = Lexer.parse(list);
+		List<Pair<String, String>> list = Lexer.scan("test.txt");
+		List<List<String>> codeTable = CodeParser.parse(list);
 		codeTable.get(codeTable.size() - 1).add("$");
 
 		//输入信息

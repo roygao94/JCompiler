@@ -47,35 +47,22 @@ public class Lexer {
 		add(';');
 	}};
 
-	// tokens 是一个list，记录所有出现的token，可以重复
-	private List<String> tokens = new ArrayList<>();
-	// map记录<token, type>的对应关系
-	private Map<String, String> map = new HashMap<>();
-
-	private List<Pair<String, String>> codeList = new ArrayList<>();
-
-	public Lexer(String path) throws IOException {
-		scan(readCode(path));
+	public static void main(String[] args) throws IOException {
+		List<Pair<String, String>> list = scan("source.txt");
+		for (Pair<String, String> token : list)
+			System.out.println(token);
 	}
 
-	public Lexer(List<String> code) {
-		scan(code);
-	}
+	public static List<Pair<String, String>> scan(String sourceFile) throws IOException {
+		// tokens 是一个list，记录所有出现的token，可以重复
+		List<String> tokens = new ArrayList<>();
+		// map记录<token, type>的对应关系
+		Map<String, String> map = new HashMap<>();
 
-	public static List<String> readCode(String path) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(path));
-		List<String> code = new ArrayList<>();
+		BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+
 		String line;
-		while ((line = reader.readLine()) != null)
-			code.add(line);
-		reader.close();
-
-		return code;
-	}
-
-	private void scan(List<String> code) {
-
-		for (String line : code) {
+		while ((line = reader.readLine()) != null) {
 			for (int i = 0; i < line.length(); ) {
 				// 扫空格
 				for (; i < line.length() && (line.charAt(i) == ' ' || line.charAt(i) == '\t'); ++i) ;
@@ -159,39 +146,13 @@ public class Lexer {
 			}
 		}
 
+		reader.close();
+
+		List<Pair<String, String>> returnList = new ArrayList<>();
 		for (String token : tokens)
-			codeList.add(new Pair<>(token, map.get(token)));
+			returnList.add(new Pair<>(token, map.get(token)));
+
+		return returnList;
 	}
 
-	public List<String> getTokens() {
-		return tokens;
-	}
-
-	public Map<String, String> getMap() {
-		return map;
-	}
-
-	public List<Pair<String, String>> getCodeList() {
-		return codeList;
-	}
-
-	public static List<List<String>> parse(List<Pair<String, String>> list) {
-		List<List<String>> codeTable = new ArrayList<>();
-		List<String> currLine = new ArrayList<>();
-
-		for (Pair<String, String> token : list) {
-			if (token.getSecond().equals("identifier"))
-				currLine.add("ID");
-			else if (token.getSecond().equals("number"))
-				currLine.add("NUM");
-			else currLine.add(token.getFirst());
-			if (token.getFirst().equals(";") || token.getFirst().equals("{") || token.getFirst().equals("}")
-					|| token.getSecond().equals("comment")) {
-				codeTable.add(currLine);
-				currLine = new ArrayList<>();
-			}
-		}
-
-		return codeTable;
-	}
 }
