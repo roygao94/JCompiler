@@ -25,7 +25,7 @@ public class test {
 		Lexer lexer = new Lexer(code);
 		List<Pair<String, String>> list = lexer.getCodeList();
 		System.out.println(list.size());
-		List<List<String>> codeTable = Lexer.parse(list);
+		List<List<String>> codeTable = lexer.getFormatedCode();
 		System.out.println(codeTable.size());
 
 		for (List<String> line : codeTable) {

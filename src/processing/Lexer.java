@@ -54,6 +54,8 @@ public class Lexer {
 
 	private List<Pair<String, String>> codeList = new ArrayList<>();
 
+	private List<List<String>> formatedCode = new ArrayList<>();
+
 	public Lexer(String path) throws IOException {
 		scan(readCode(path));
 	}
@@ -75,6 +77,8 @@ public class Lexer {
 	private void scan(List<String> code) {
 
 		for (String line : code) {
+			List<String> formatedLine = new ArrayList<>();
+
 			for (int i = 0; i < line.length(); ) {
 				// 扫空格
 				for (; i < line.length() && (line.charAt(i) == ' ' || line.charAt(i) == '\t'); ++i) ;
@@ -85,6 +89,8 @@ public class Lexer {
 					tokens.add(comment);
 					map.put(comment, COMM);
 					i = line.length();
+
+					formatedLine.add(comment);
 
 				} else if (Character.isLetter(line.charAt(i))) {
 					// keyword or identifiers
@@ -100,12 +106,15 @@ public class Lexer {
 					}
 
 					tokens.add(word);
-					if (!hasDigit && keywords.contains(word))
+					if (!hasDigit && keywords.contains(word)) {
 						// word is a keyword
 						map.put(word, KEY);
-					else
+						formatedLine.add(word);
+					} else {
 						// word is an identifier
 						map.put(word, ID);
+						formatedLine.add("ID");
+					}
 
 				} else if (operators.contains(line.charAt(i))) {
 					// operators
@@ -115,10 +124,19 @@ public class Lexer {
 					tokens.add(operator);
 					map.put(operator, OP);
 
+					formatedLine.add(operator);
+
 				} else if (delimeters.contains(line.charAt(i))) {
 					// delimeters
 					tokens.add("" + line.charAt(i));
-					map.put("" + line.charAt(i++), DEL);
+					map.put("" + line.charAt(i), DEL);
+
+					formatedLine.add("" + line.charAt(i));
+					if (line.charAt(i) == ';' || line.charAt(i) == '{' || line.charAt(i) == '}') {
+						formatedCode.add(formatedLine);
+						formatedLine = new ArrayList<>();
+					}
+					i++;
 
 				} else if (Character.isDigit(line.charAt(i))) {
 					// numbers
@@ -150,11 +168,19 @@ public class Lexer {
 
 					tokens.add(number);
 					map.put(number, NUM);
+
+					formatedLine.add("NUM");
+
 				} else {
 					System.out.print(line + "," + i);
 					System.out.println("error");
 					i = line.length();
 				}
+			}
+
+			if (!formatedLine.isEmpty()) {
+				formatedCode.add(formatedLine);
+				formatedLine = new ArrayList<>();
 			}
 		}
 
@@ -173,6 +199,10 @@ public class Lexer {
 
 	public List<Pair<String, String>> getCodeList() {
 		return codeList;
+	}
+
+	public List<List<String>> getFormatedCode() {
+		return formatedCode;
 	}
 
 	public static List<List<String>> parse(List<Pair<String, String>> list) {

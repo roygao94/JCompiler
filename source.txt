@@ -1,4 +1,5 @@
 {
-if (jb == 0) then jb = 1;
+if (jb == 0)
+then jb = 1;
 else jb = 0;
 }
