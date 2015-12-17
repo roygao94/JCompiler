@@ -54,6 +54,8 @@ public class Lexer {
 
 	private List<Pair<String, String>> codeList = new ArrayList<>();
 
+	private List<List<Pair<String, String>>> originalCode = new ArrayList<>();
+
 	private List<List<String>> formatedCode = new ArrayList<>();
 
 	public Lexer(String path) throws IOException {
@@ -77,6 +79,7 @@ public class Lexer {
 	private void scan(List<String> code) {
 
 		for (String line : code) {
+			List<Pair<String, String>> originalLine = new ArrayList<>();
 			List<String> formatedLine = new ArrayList<>();
 
 			for (int i = 0; i < line.length(); ) {
@@ -90,6 +93,7 @@ public class Lexer {
 					map.put(comment, COMM);
 					i = line.length();
 
+					originalLine.add(new Pair<>(comment, comment));
 					formatedLine.add(comment);
 
 				} else if (Character.isLetter(line.charAt(i))) {
@@ -109,10 +113,12 @@ public class Lexer {
 					if (!hasDigit && keywords.contains(word)) {
 						// word is a keyword
 						map.put(word, KEY);
+						originalLine.add(new Pair<>(word, word));
 						formatedLine.add(word);
 					} else {
 						// word is an identifier
 						map.put(word, ID);
+						originalLine.add(new Pair<>(word, "ID"));
 						formatedLine.add("ID");
 					}
 
@@ -124,6 +130,7 @@ public class Lexer {
 					tokens.add(operator);
 					map.put(operator, OP);
 
+					originalLine.add(new Pair<>(operator, operator));
 					formatedLine.add(operator);
 
 				} else if (delimeters.contains(line.charAt(i))) {
@@ -133,6 +140,8 @@ public class Lexer {
 
 					formatedLine.add("" + line.charAt(i));
 					if (line.charAt(i) == ';' || line.charAt(i) == '{' || line.charAt(i) == '}') {
+						originalCode.add(originalLine);
+						originalLine = new ArrayList<>();
 						formatedCode.add(formatedLine);
 						formatedLine = new ArrayList<>();
 					}
@@ -169,6 +178,7 @@ public class Lexer {
 					tokens.add(number);
 					map.put(number, NUM);
 
+					originalLine.add(new Pair<>(number, "NUM"));
 					formatedLine.add("NUM");
 
 				} else {
@@ -179,8 +189,8 @@ public class Lexer {
 			}
 
 			if (!formatedLine.isEmpty()) {
+				originalCode.add(originalLine);
 				formatedCode.add(formatedLine);
-				formatedLine = new ArrayList<>();
 			}
 		}
 
@@ -199,6 +209,10 @@ public class Lexer {
 
 	public List<Pair<String, String>> getCodeList() {
 		return codeList;
+	}
+
+	public List<List<Pair<String, String>>> getOriginalCode() {
+		return originalCode;
 	}
 
 	public List<List<String>> getFormatedCode() {
