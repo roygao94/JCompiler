@@ -21,7 +21,7 @@ public class test {
 	public static void main(String[] args) throws IOException {
 //		用文件构造
 //		Lexer lexer = new Lexer("source.txt");
-		List<String> code = Lexer.readCode("source.txt");
+		List<String> code = Lexer.readCode("test.txt");
 		Lexer lexer = new Lexer(code);
 		List<Pair<String, String>> list = lexer.getCodeList();
 		System.out.println(list.size());

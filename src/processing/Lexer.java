@@ -85,6 +85,7 @@ public class Lexer {
 			for (int i = 0; i < line.length(); ) {
 				// 扫空格
 				for (; i < line.length() && (line.charAt(i) == ' ' || line.charAt(i) == '\t'); ++i) ;
+				if (i >= line.length()) break;
 
 				if (line.charAt(i) == '/' && i + 1 < line.length() && line.charAt(i + 1) == '/') {
 					// comment
