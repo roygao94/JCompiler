@@ -25,12 +25,13 @@ public class test {
 		Lexer lexer = new Lexer(code);
 		List<Pair<String, String>> list = lexer.getCodeList();
 		System.out.println(list.size());
-		List<List<String>> codeTable = lexer.getFormatedCode();
-		System.out.println(codeTable.size());
+//		List<List<String>> codeTable = lexer.getFormatedCode();
+		List<List<Pair<String, String>>> source = lexer.getOriginalCode();
+		System.out.println(source.size());
 
-		for (List<String> line : codeTable) {
-			for (String token : line)
-				System.out.print(token + " ");
+		for (List<Pair<String, String>> line : source) {
+			for (Pair<String, String> token : line)
+				System.out.print(token.getFirst() + " ");
 			System.out.println();
 		}
 

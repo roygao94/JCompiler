@@ -138,6 +138,7 @@ public class Lexer {
 					tokens.add("" + line.charAt(i));
 					map.put("" + line.charAt(i), DEL);
 
+					originalLine.add(new Pair<>("" + line.charAt(i), "" + line.charAt(i)));
 					formatedLine.add("" + line.charAt(i));
 					if (line.charAt(i) == ';' || line.charAt(i) == '{' || line.charAt(i) == '}') {
 						originalCode.add(originalLine);
