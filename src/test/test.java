@@ -1,6 +1,7 @@
 package test;
 
 import io.Pair;
+import io.Token;
 import processing.CodeParser;
 import processing.Lexer;
 
@@ -41,5 +42,10 @@ public class test {
 		}};
 
 		System.out.println(map.get(new Pair<>("aa", "BB")));
+
+		List<Token> tokens = lexer.getTokenList();
+		System.out.println("Token list size :\t" + tokens.size());
+		for (Token token : tokens)
+			System.out.println(token);
 	}
 }

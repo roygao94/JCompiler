@@ -1,6 +1,7 @@
 package processing;
 
 import io.Pair;
+import io.Token;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -239,5 +240,14 @@ public class Lexer {
 		}
 
 		return codeTable;
+	}
+
+	public List<Token> getTokenList() {
+		List<Token> list = new ArrayList<>();
+		for (String token : tokens)
+			if (map.get(token).equals(ID))
+				list.add(new Token(token, map.get(token)));
+
+		return list;
 	}
 }
