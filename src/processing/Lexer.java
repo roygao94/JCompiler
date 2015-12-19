@@ -41,6 +41,7 @@ public class Lexer {
 	}};
 
 	public static final Set<Character> delimeters = new HashSet<Character>() {{
+		add(',');
 		add('(');
 		add(')');
 		add('{');
@@ -244,9 +245,12 @@ public class Lexer {
 
 	public List<Token> getTokenList() {
 		List<Token> list = new ArrayList<>();
+		Set<String> set = new HashSet<>();
 		for (String token : tokens)
-			if (map.get(token).equals(ID))
+			if (map.get(token).equals(ID) && !set.contains(token)) {
 				list.add(new Token(token, map.get(token)));
+				set.add(token);
+			}
 
 		return list;
 	}
