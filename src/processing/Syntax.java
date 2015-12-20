@@ -287,7 +287,7 @@ public class Syntax {
 				}
 
 				//单独处理缺失";"
-				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts")) {
+				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts") && !stack.peek().equals("else")) {
 
 					String ptoken = ";";
 					if (stack.peek().equals("then"))
