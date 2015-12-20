@@ -17,6 +17,9 @@ import java.util.List;
 public class Node {
 	private String name;    //该结点名字
 	private int layer = 0;    //该结点层级
+	private String val = "";      //该结点的值
+	private String type = "";      //该结点的类型
+	private int tokenline = 1;
 
 	private List<Node> childs = null;    //保存该结点的孩子
 
@@ -26,6 +29,7 @@ public class Node {
 		this.name = name;
 	}
 
+
 	/**
 	 * 增加一个孩子
 	 *
@@ -33,11 +37,12 @@ public class Node {
 	 */
 	public void add(Node n) {
 		if (childs == null)
-			childs = new ArrayList<Node>();
+			childs = new ArrayList<>();
 		n.setLayer(layer + 1);
 		setChildLayout(n);
 		childs.add(n);
 	}
+
 
 	/**
 	 * 递归设置孩子的层级
@@ -63,6 +68,18 @@ public class Node {
 		return name;
 	}
 
+	public String getVal() {
+		return val;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public int getLine() {
+		return tokenline;
+	}
+
 	/**
 	 * 设置结点名
 	 *
@@ -70,6 +87,14 @@ public class Node {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setVal(String val) {
+		this.val = val;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	/**
@@ -96,7 +121,10 @@ public class Node {
 	 * @return 所有孩子结点
 	 */
 	public List<Node> getChilds() {
-		return childs;
+		if (this.hasChild())
+			return childs;
+		else
+			return null;
 	}
 
 	/**
@@ -114,7 +142,7 @@ public class Node {
 	 * @param n 要打印的根结点
 	 */
 	public void printAllNode(Node n) {
-		System.out.println(n);
+		System.out.println(n.toString());
 		if (n.hasChild()) {
 			List<Node> c = n.getChilds();
 			for (Node node : c) {
@@ -135,7 +163,7 @@ public class Node {
 	}
 
 	public String toString() {
-		return name;
+		return name + "@" + val + "@" + type;
 	}
 
 	public void setPosition(int x, int y) {

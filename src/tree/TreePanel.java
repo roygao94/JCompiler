@@ -159,7 +159,7 @@ public class TreePanel extends JPanel {
 					g.fillRect(x, y, gridWidth, gridHeight);
 
 					g.setColor(stringColor);
-					g.drawString(node.getName(), x, fontY);
+					g.drawString(node.toString(), x, fontY);
 
 					x += xGap;
 				}
@@ -206,7 +206,7 @@ public class TreePanel extends JPanel {
 						g.fillRect(fatherX - gridWidth / 2, y, gridWidth, gridHeight);
 
 						g.setColor(stringColor);
-						g.drawString(child.getName(), fatherX - gridWidth / 2, fontY);
+						g.drawString(child.toString(), fatherX - gridWidth / 2, fontY);
 					}
 			}
 		}
@@ -276,6 +276,5 @@ public class TreePanel extends JPanel {
 	public void setStartX(int startX) {
 		this.startX = startX;
 	}
-
 
 }
