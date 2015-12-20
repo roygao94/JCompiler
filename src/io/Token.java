@@ -8,6 +8,7 @@ public class Token {
 	private String key;
 	private String tag;
 	private String value;
+	private boolean decl = false;   //该结点是否成功申明
 
 	public Token(String key, String tag, String value) {
 		this.key = key;
@@ -33,6 +34,10 @@ public class Token {
 		this.value = value;
 	}
 
+	public void setDecl(boolean decl) {
+		this.decl = decl;
+	}
+
 	public String getKey() {
 		return key;
 	}
@@ -45,8 +50,12 @@ public class Token {
 		return value;
 	}
 
+	public boolean isDecl() {
+		return decl;
+	}
+
 	@Override
 	public String toString() {
-		return key + "\t" + tag + "\t" + value;
+		return key + "\t" + tag + "\t" + value + "\t" + decl;
 	}
 }
