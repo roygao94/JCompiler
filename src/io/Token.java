@@ -56,6 +56,6 @@ public class Token {
 
 	@Override
 	public String toString() {
-		return key + "\t" + tag + "\t" + value + "\t" + decl;
+		return key + "\t" + tag + "\t" + value;
 	}
 }
