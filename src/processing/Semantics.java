@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class Semantics {
 
+	static int i = 1;
+
 	public static void main(String[] args) throws IOException {
 		Node n = new Node("program");
 		List<Pair<String, String>> stack_info = new ArrayList<>();
@@ -28,9 +30,9 @@ public class Semantics {
 
 		transiton(treeNode, tokens);
 
-		System.out.println("Token list size :\t" + tokens.size());
-		for (Token token : tokens)
-			System.out.println(token);
+//		System.out.println("Token list size :\t" + tokens.size());
+//		for (Token token : tokens)
+//			System.out.println(token);
 	}
 
 	public static void transiton(List<Node> treeNode, List<Token> tokens) {
@@ -44,27 +46,34 @@ public class Semantics {
 					transiton(tmpnode, tokens);
 					if (node.getChilds().get(0).getType().equals("int") && node.getChilds().get(2).getVal().indexOf(".") != -1)
 						System.out.println("real类型值无法赋值给int");
-					else
-						node.getChilds().get(0).setVal(node.getChilds().get(2).getVal());
+					else {
+						for (Token token : tokens)
+							if (token.getKey().equals(node.getChilds().get(0).getVal()) && token.isDecl())
+								System.out.println("mov " + node.getChilds().get(0).getVal() + ",," + node.getChilds().get(2).getVal());
+					}
 					break;
 				case ("arithexpr"):
 					transiton(tmpnode, tokens);
-					if (node.getChilds().get(1).getChilds().size() != 1)
+					if (node.getChilds().get(1).getChilds().size() != 1) {
 						if ((node.getChilds().get(1).getChilds().get(0).getVal().equals("+")))
-							node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(0).getVal()) + Integer.parseInt(node.getChilds().get(1).getVal())));
+							System.out.println("add t" + i + "," + node.getChilds().get(0).getVal() + "," + node.getChilds().get(1).getVal());
 						else
-							node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(0).getVal()) - Integer.parseInt(node.getChilds().get(1).getVal())));
-					else
+							System.out.println("sub t" + i + "," + node.getChilds().get(0).getVal() + "," + node.getChilds().get(1).getVal());
+						node.setVal("t" + i);
+						i++;
+					} else
 						node.setVal(node.getChilds().get(0).getVal());
 					break;
 				case ("multexpr"):
 					transiton(tmpnode, tokens);
-					if (node.getChilds().get(1).getChilds().size() != 1)
+					if (node.getChilds().get(1).getChilds().size() != 1) {
 						if ((node.getChilds().get(1).getChilds().get(0).getVal().equals("*")))
-							node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(0).getVal()) * Integer.parseInt(node.getChilds().get(1).getVal())));
+							System.out.println("mul t" + i + "," + node.getChilds().get(0).getVal() + "," + node.getChilds().get(1).getVal());
 						else
-							node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(0).getVal()) / Integer.parseInt(node.getChilds().get(1).getVal())));
-					else
+							System.out.println("div t" + i + "," + node.getChilds().get(0).getVal() + "," + node.getChilds().get(1).getVal());
+						node.setVal("t" + i);
+						i++;
+					} else
 						node.setVal(node.getChilds().get(0).getVal());
 					break;
 				case ("simpleexpr"):
@@ -77,12 +86,14 @@ public class Semantics {
 				case ("multexprprime"):
 					if (node.getChilds().size() != 1) {
 						transiton(tmpnode, tokens);
-						if (node.getChilds().get(2).getChilds().size() != 1)
-							if ((node.getChilds().get(2).getChilds().get(0).getVal().equals("*")))
-								node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(1).getVal()) * Integer.parseInt(node.getChilds().get(2).getVal())));
+						if (node.getChilds().get(2).getChilds().size() != 1) {
+							if (node.getChilds().get(2).getChilds().get(0).getVal().equals("*"))
+								System.out.println("mul t" + i + "," + node.getChilds().get(1).getVal() + "," + node.getChilds().get(2).getVal());
 							else
-								node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(1).getVal()) / Integer.parseInt(node.getChilds().get(2).getVal())));
-						else
+								System.out.println("div t" + i + "," + node.getChilds().get(1).getVal() + "," + node.getChilds().get(2).getVal());
+							node.setVal("t" + i);
+							i++;
+						} else
 							node.setVal(node.getChilds().get(1).getVal());
 					}
 					break;
@@ -91,9 +102,11 @@ public class Semantics {
 						transiton(tmpnode, tokens);
 						if (node.getChilds().get(2).getChilds().size() != 1) {
 							if (node.getChilds().get(2).getChilds().get(0).getVal().equals("+"))
-								node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(1).getVal()) + Integer.parseInt(node.getChilds().get(2).getVal())));
-							else if (node.getChilds().get(2).getChilds().get(0).getVal().equals("-"))
-								node.setVal(String.valueOf(Integer.parseInt(node.getChilds().get(1).getVal()) - Integer.parseInt(node.getChilds().get(2).getVal())));
+								System.out.println("add t" + i + "," + node.getChilds().get(1).getVal() + "," + node.getChilds().get(2).getVal());
+							else
+								System.out.println("sub t" + i + "," + node.getChilds().get(1).getVal() + "," + node.getChilds().get(2).getVal());
+							node.setVal("t" + i);
+							i++;
 						} else
 							node.setVal(node.getChilds().get(1).getVal());
 					}
@@ -120,13 +133,17 @@ public class Semantics {
 				case ("ID"):
 					for (Token token : tokens)
 						if (token.getKey().equals(node.getVal()))
-							if (node.getType() != "" && token.getValue() == "")
+							if (node.getType() != "" && token.getValue() == "") {
 								token.setValue(node.getType());
-							else if (node.getType() != "" && token.getValue() != "")
+								token.setDecl(true);
+							} else if (node.getType() != "" && token.getValue() != "") {
 								System.out.println("重复申明变量" + node.getVal());
-							else if (token.getValue() == "")
+								token.setDecl(false);
+							} else if (token.getValue() == "") {
 								System.out.println("未申明变量" + node.getVal());
-							else node.setType(token.getValue());
+								token.setDecl(false);
+							} else
+								node.setType(token.getValue());
 					break;
 			}
 		}
