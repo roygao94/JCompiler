@@ -1,8 +1,7 @@
 package processing;
 
 import io.Pair;
-import tree.DrawTree;
-import tree.Node;
+import tree.*;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -288,7 +287,13 @@ public class Syntax {
 				}
 
 				//单独处理缺失";"
-				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts") && !stack.peek().equals("else")) {
+				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts")) {
+
+					String ptoken = ";";
+					if (stack.peek().equals("then"))
+						ptoken = "then";
+					if (stack.peek().equals("else"))
+						ptoken = "else";
 
 					tmpstack = (Stack<String>) stack.clone();
 					while (!tmpstack.isEmpty())
@@ -301,7 +306,7 @@ public class Syntax {
 
 					while (!stack.peek().equals("stmts"))
 						stack.pop();
-					tmp_output_info = "line " + nowline + " error line ,may need ;";
+					tmp_output_info = "line " + nowline + " error line ,may need " + ptoken;
 					output_info.add(tmp_output_info);
 					tmp_output_info = "";
 					break;
