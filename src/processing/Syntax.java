@@ -11,6 +11,7 @@ import java.util.*;
  * Created by He on 2015/11/25.
  */
 public class Syntax {
+	// 我要开始装逼了！
 	private static Map<Pair<String, String>, String> map = new HashMap<Pair<String, String>, String>() {
 		{
 			put(new Pair<>("program", "{"), "compoundstmt");
