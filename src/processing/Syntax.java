@@ -1,7 +1,8 @@
 package processing;
 
 import io.Pair;
-import tree.*;
+import tree.DrawTree;
+import tree.Node;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -176,6 +177,7 @@ public class Syntax {
 				while (true) {
 
 					top = stack.pop();
+
 					//栈顶与token相同，则跳出读下一个token
 					if (top.equals(token)) {
 						tmp_input_info = tmp_input_info.substring(line.get(i).getFirst().length());
@@ -199,9 +201,8 @@ public class Syntax {
 							tmpnode = treeStack.pop();
 
 							//
-							if (stmt.contains(tmpnode.getName())) {
+							if (stmt.contains(tmpnode.getName()))
 								treeNode.add(tmpnode);
-							}
 
 							//将子节点加入到父亲节点后
 							for (int j = 0; j <= split.length - 1; j++) {

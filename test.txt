@@ -1,6 +1,4 @@
 {
-int i,j;
-i=1;
-j=1+4;
-i=j*4;
+int a;
+if(a==3)then {a=4;a=5;} else a=3;
 }

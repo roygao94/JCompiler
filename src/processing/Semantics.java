@@ -14,6 +14,7 @@ import java.util.List;
 public class Semantics {
 
 	static int i = 1;
+	static int j = 1;
 
 	public static void main(String[] args) throws IOException {
 		Node n = new Node("program");
@@ -42,6 +43,15 @@ public class Semantics {
 			List<Node> tmpnode = node.getChilds();
 			stmt = node.getName();
 			switch (stmt) {
+				case ("compoundstmt"):
+					transiton(tmpnode, tokens);
+					break;
+				case ("stmt"):
+					transiton(tmpnode, tokens);
+					break;
+				case ("stmts"):
+					transiton(tmpnode, tokens);
+					break;
 				case ("assgstmt"):
 					transiton(tmpnode, tokens);
 					if (node.getChilds().get(0).getType().equals("int") && node.getChilds().get(2).getVal().indexOf(".") != -1)
@@ -51,6 +61,7 @@ public class Semantics {
 							if (token.getKey().equals(node.getChilds().get(0).getVal()) && token.isDecl())
 								System.out.println("mov " + node.getChilds().get(0).getVal() + ",," + node.getChilds().get(2).getVal());
 					}
+					node.setName("assgstmt_finish");
 					break;
 				case ("arithexpr"):
 					transiton(tmpnode, tokens);
@@ -144,6 +155,45 @@ public class Semantics {
 								token.setDecl(false);
 							} else
 								node.setType(token.getValue());
+					break;
+				case ("ifstmt"):
+					transiton(tmpnode, tokens);
+					System.out.print(node.getChilds().get(6).getVal() + " ");
+					break;
+				case ("boolexpr"):
+					transiton(tmpnode, tokens);
+					String op = "";
+					switch (node.getChilds().get(1).getChilds().get(0).getVal()) {
+						case ("=="):
+							op = "eq";
+							break;
+						case (">"):
+							op = "gt";
+							break;
+						case ("<"):
+							op = "lt";
+							break;
+						case (">="):
+							op = "ge";
+							break;
+						case ("<="):
+							op = "le";
+							break;
+					}
+					System.out.println(op + " t" + i + "," + node.getChilds().get(0).getVal() + "," + node.getChilds().get(2).getVal());
+					node.setVal("t" + i);
+					i++;
+					break;
+				case ("then"):
+					System.out.println("jumpf " + treeNode.get(2).getVal() + ",,tmp" + j);
+					node.setVal("tmp" + j);
+					j++;
+					break;
+				case ("else"):
+					System.out.println("jumpf ,,tmp" + j);
+					System.out.print(treeNode.get(4).getVal() + " ");
+					node.setVal("tmp" + j);
+					j++;
 					break;
 			}
 		}
