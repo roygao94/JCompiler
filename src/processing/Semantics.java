@@ -55,8 +55,8 @@ public class Semantics {
 		} else
 			System.out.println("语法分析出错！");
 
-//		for (Node node : treeNode)
-//			Syntax.DrawTree(node);
+		for (Node node : _treeNode)
+			Syntax.DrawTree(node);
 
 //		System.out.println("Token list size :\t" + tokens.size());
 //		for (Token token : tokens)
