@@ -31,6 +31,17 @@ public class Node {
 		this.name = name;
 	}
 
+	public Node(Node node) {
+		name = node.name;
+		layer = node.layer;
+		val = node.val;
+		type = node.type;
+		tokenline = node.tokenline;
+
+		if (node.hasChild())
+			for (Node child : node.getChilds())
+				add(new Node(child));
+	}
 
 	/**
 	 * 增加一个孩子
@@ -44,6 +55,11 @@ public class Node {
 		setChildLayout(n);
 		childs.add(n);
 		n.parent = this;
+	}
+
+	public void pop() {
+		if (!childs.isEmpty())
+			childs.remove(0);
 	}
 
 
