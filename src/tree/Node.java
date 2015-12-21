@@ -27,6 +27,8 @@ public class Node {
 
 	private Position position;
 
+	private boolean visited = false;
+
 	public Node(String name) {
 		this.name = name;
 	}
@@ -147,7 +149,7 @@ public class Node {
 	 * @return 是则返回true，否则返回false
 	 */
 	public boolean hasChild() {
-		return childs == null ? false : true;
+		return childs != null && !childs.isEmpty();
 	}
 
 	/**
@@ -229,6 +231,14 @@ public class Node {
 	 */
 	public Node getParent() {
 		return parent;
+	}
+
+	public void setVisited(boolean flag) {
+		visited = flag;
+	}
+
+	public boolean notVisited() {
+		return !visited;
 	}
 }
 
