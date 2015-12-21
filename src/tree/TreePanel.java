@@ -97,7 +97,8 @@ public class TreePanel extends JPanel {
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
 //		drawAllNode(tree, startX, g);
-		drawAllNodeBFS(tree, startX, g);
+//		drawAllNodeBFS(tree, startX, g);
+		drawAllNodeBFSNew(tree, startX, g);
 	}
 
 	/**
@@ -207,6 +208,91 @@ public class TreePanel extends JPanel {
 
 						g.setColor(stringColor);
 						g.drawString(child.toString(), fatherX - gridWidth / 2, fontY);
+					}
+			}
+		}
+	}
+
+	public void drawAllNodeBFSNew(Node n, int x, Graphics g) {
+		Queue<Node> queue = new LinkedBlockingQueue<>();
+		List<Node> currList = new ArrayList<>();
+		List<Node> fatherList = new ArrayList<>();
+		int rootLayer = n.getLayer();
+		int currLayer = rootLayer;
+		queue.offer(n);
+
+		while (!queue.isEmpty()) {
+			Node curr = queue.poll();
+			int layer = curr.getLayer() - rootLayer;
+			if (layer != currLayer) {
+				int y = currLayer * (vGap + gridHeight) + startY;
+				int fontY = y + gridHeight - 5;
+
+				int xGap = getWidth() / (currList.size() + 1);
+				x = xGap - gridWidth / 2;
+
+				for (Node node : currList) {
+					node.setPosition(x + gridWidth / 2, y + gridHeight);
+					g.setColor(gridColor);
+					g.fillRect(x, y, gridWidth, gridHeight);
+
+					g.setColor(stringColor);
+					g.drawString(node.toString(), x, fontY);
+
+					x += xGap;
+				}
+
+				if (!fatherList.isEmpty()) {
+					for (Node father : fatherList) {
+						int fatherX = father.getX();
+						int fatherY = father.getY();
+
+						if (father.hasChild())
+							for (Node child : father.getChilds()) {
+								g.setColor(linkLineColor);
+								g.drawLine(fatherX, fatherY, child.getX(), child.getY() - gridHeight);
+							}
+					}
+				}
+
+				fatherList.clear();
+				fatherList.addAll(currList);
+				currList.clear();
+				currLayer = layer;
+			}
+			currList.add(curr);
+
+			if (curr.hasChild())
+				for (Node child : curr.getChilds())
+					queue.offer(child);
+		}
+
+		int y = currLayer * (vGap + gridHeight) + startY;
+		int fontY = y + gridHeight - 5;
+
+		int xGap = getWidth() / (currList.size() + 1);
+		x = xGap - gridWidth / 2;
+
+		for (Node node : currList) {
+			node.setPosition(x + gridWidth / 2, y + gridHeight);
+			g.setColor(gridColor);
+			g.fillRect(x, y, gridWidth, gridHeight);
+
+			g.setColor(stringColor);
+			g.drawString(node.toString(), x, fontY);
+
+			x += xGap;
+		}
+
+		if (!fatherList.isEmpty()) {
+			for (Node father : fatherList) {
+				int fatherX = father.getX();
+				int fatherY = father.getY();
+
+				if (father.hasChild())
+					for (Node child : father.getChilds()) {
+						g.setColor(linkLineColor);
+						g.drawLine(fatherX, fatherY, child.getX(), child.getY() - gridHeight);
 					}
 			}
 		}
