@@ -23,6 +23,8 @@ public class Node {
 
 	private List<Node> childs = null;    //保存该结点的孩子
 
+	private Node parent = null;
+
 	private Position position;
 
 	public Node(String name) {
@@ -41,6 +43,7 @@ public class Node {
 		n.setLayer(layer + 1);
 		setChildLayout(n);
 		childs.add(n);
+		n.parent = this;
 	}
 
 
@@ -175,16 +178,41 @@ public class Node {
 		return name + "@" + val + "@" + type;
 	}
 
+	/**
+	 * 设置坐标
+	 *
+	 * @param x 横坐标X
+	 * @param y 纵坐标Y
+	 */
 	public void setPosition(int x, int y) {
 		position = new Position(x, y);
 	}
 
+	/**
+	 * 获取横坐标X
+	 *
+	 * @return 横坐标X
+	 */
 	public int getX() {
 		return position.getX();
 	}
 
+	/**
+	 * 获取纵坐标Y
+	 *
+	 * @return 纵坐标Y
+	 */
 	public int getY() {
 		return position.getY();
+	}
+
+	/**
+	 * 获取父节点
+	 *
+	 * @return 父节点
+	 */
+	public Node getParent() {
+		return parent;
 	}
 }
 
