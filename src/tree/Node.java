@@ -123,12 +123,26 @@ public class Node {
 	public List<Node> getChilds() {	return childs; }
 
 	/**
-	 * 检查是否存在孩子
+	 * 检查是否存在祖先关系
 	 *
 	 * @return 是则返回true，否则返回false
 	 */
 	public boolean hasChild() {
 		return childs == null ? false : true;
+	}
+
+	/**
+	 * 判断是否为祖先关系
+	 *
+	 * @param node 可能的子孙节点
+	 */
+	public boolean isAncestorOf(Node node) {
+		if (node.getLayer() <= this.getLayer())
+			return false;
+		for (Node child : this.getChilds())
+			if (child == node || child.isAncestorOf(node))
+				return true;
+		return false;
 	}
 
 	/**

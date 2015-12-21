@@ -60,14 +60,32 @@ public class Lexer {
 
 	private List<List<String>> formatedCode = new ArrayList<>();
 
+	/**
+	 * 通过指定代码文件路径构造词法分析
+	 *
+	 * @param path 指定代码文件路径
+	 * @throws IOException
+	 */
 	public Lexer(String path) throws IOException {
 		scan(readCode(path));
 	}
 
+	/**
+	 * 通过代码构造词法分析
+	 *
+	 * @param code 代码
+	 */
 	public Lexer(List<String> code) {
 		scan(code);
 	}
 
+	/**
+	 * 根据制定代码文件路径读取代码
+	 *
+	 * @param path 指定代码文件路径
+	 * @return 读取的代码
+	 * @throws IOException
+	 */
 	public static List<String> readCode(String path) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(path));
 		List<String> code = new ArrayList<>();
@@ -78,6 +96,11 @@ public class Lexer {
 		return code;
 	}
 
+	/**
+	 * 词法分析
+	 *
+	 * @param code 代码
+	 */
 	private void scan(List<String> code) {
 
 		for (String line : code) {
@@ -203,26 +226,57 @@ public class Lexer {
 			codeList.add(new Pair<>(token, map.get(token)));
 	}
 
+	/**
+	 * 获取所有出现的token（有重复）
+	 *
+	 * @return 所有出现的token
+	 */
 	public List<String> getTokens() {
 		return tokens;
 	}
 
+	/**
+	 * 获取记录token和终止符对应关系的map
+	 *
+	 * @return 记录token和终止符对应关系的map
+	 */
 	public Map<String, String> getMap() {
 		return map;
 	}
 
+	/**
+	 * 获取没有分行的代码（token和对应终结符）
+	 *
+	 * @return 没有分行的代码
+	 */
 	public List<Pair<String, String>> getCodeList() {
 		return codeList;
 	}
 
+	/**
+	 * 获取又分行的代码（token和对应终结符）
+	 *
+	 * @return 有分行的代码
+	 */
 	public List<List<Pair<String, String>>> getOriginalCode() {
 		return originalCode;
 	}
 
+	/**
+	 * 获取又分行的代码
+	 *
+	 * @return 有分行的代码
+	 */
 	public List<List<String>> getFormatedCode() {
 		return formatedCode;
 	}
 
+	/**
+	 * 对代码分行
+	 *
+	 * @param list 未分行的代码
+	 * @return 分好行的代码
+	 */
 	public static List<List<String>> parse(List<Pair<String, String>> list) {
 		List<List<String>> codeTable = new ArrayList<>();
 		List<String> currLine = new ArrayList<>();
@@ -243,6 +297,11 @@ public class Lexer {
 		return codeTable;
 	}
 
+	/**
+	 * 获取符号表
+	 *
+	 * @return 符号表
+	 */
 	public List<Token> getTokenList() {
 		List<Token> list = new ArrayList<>();
 		Set<String> set = new HashSet<>();
