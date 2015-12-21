@@ -37,8 +37,8 @@ public class test {
 		List<String> syntaxErrorInfo = syntax.getErrorInfo();
 		List<Node> treeNode = syntax.getTreeNode();
 
-		for (Node node : treeNode)
-			Syntax.DrawTree(node);
+//		for (Node node : treeNode)
+//			Syntax.DrawTree(node);
 
 		Semantics semantics;
 
@@ -56,7 +56,7 @@ public class test {
 
 			if (semanticsErrorInfo.size() == 0) {
 				for (String string : threeAddressInfo)
-					System.out.println(string);
+					System.out.print(string);
 				System.out.println("\n");
 				for (Token string : tokens)
 					System.out.println(string);
