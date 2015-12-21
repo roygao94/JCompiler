@@ -48,6 +48,10 @@ public class Semantics {
 					break;
 				case ("stmt"):
 					transiton(tmpnode, tokens);
+					if (treeNode.get(0).getName().equals("while")) {
+						System.out.println("jump ,," + treeNode.get(0).getVal());
+						System.out.print(node.getVal() + " ");
+					}
 					break;
 				case ("stmts"):
 					transiton(tmpnode, tokens);
@@ -125,6 +129,7 @@ public class Semantics {
 				case ("decl"):
 					node.setType(node.getChilds().get(0).getChilds().get(0).getVal());
 					transiton(tmpnode, tokens);
+					node.setName("decl_finish");
 					break;
 				case ("type"):
 					node.setType(node.getChilds().get(0).getVal());
@@ -159,6 +164,7 @@ public class Semantics {
 				case ("ifstmt"):
 					transiton(tmpnode, tokens);
 					System.out.print(node.getChilds().get(6).getVal() + " ");
+					node.setName("ifstmt_finish");
 					break;
 				case ("boolexpr"):
 					transiton(tmpnode, tokens);
@@ -195,6 +201,21 @@ public class Semantics {
 					node.setVal("tmp" + j);
 					j++;
 					break;
+				case ("whilestmt"):
+					System.out.print("tmp" + j + " ");
+					node.getChilds().get(0).setVal("tmp" + j);
+					j++;
+					transiton(tmpnode, tokens);
+					node.setName("whilestmt_finish");
+					break;
+				case (")"):
+					if (treeNode.get(0).getName().equals("while")) {
+						System.out.println("jumpf " + treeNode.get(2).getVal() + ",," + "tmp" + j);
+						treeNode.get(4).setVal("tmp" + j);
+						j++;
+					}
+					break;
+
 			}
 		}
 	}
