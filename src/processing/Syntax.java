@@ -96,31 +96,67 @@ public class Syntax {
 		}
 	};
 
-	public static final Set<String> stmt = new HashSet<String>() {{
+	private static final Set<String> stmt = new HashSet<String>() {{
 		add("decl");
 		add("ifstmt");
 		add("whilestmt");
 		add("assgstmt");
 	}};
 
+	private List<Pair<String, String>> stackInfo = new ArrayList<>();
+	private List<String> inputInfo = new ArrayList<>();
+	private List<String> outputInfo = new ArrayList<>();
+	private List<String> errorInfo = new ArrayList<>();
+	private List<Node> treeNode = new ArrayList<>();
+
+	public List<Pair<String, String>> getStackInfo() {
+		return stackInfo;
+	}
+
+	public List<String> getInputInfo() {
+		return inputInfo;
+	}
+
+	public List<String> getOutputInfo() {
+		return outputInfo;
+	}
+
+	public List<String> getErrorInfo() {
+		return errorInfo;
+	}
+
+	public List<Node> getTreeNode(){
+		return treeNode;
+	}
+
+	public Syntax(Node n, Lexer lexer) {
+		scan(n, lexer);
+	}
+
 	public static void main(String[] args) throws IOException {
 		Node n = new Node("program");
-		List<Pair<String, String>> stack_info = new ArrayList<>();
-		List<String> input_info = new ArrayList<>();
-		List<String> output_info = new ArrayList<>();
 
 		Lexer lexer = new Lexer("test.txt");
-		scan(n, stack_info, input_info, output_info, lexer);
+		Syntax syntax = new Syntax(n, lexer);
+
+		List<Pair<String, String>> stack_info = syntax.getStackInfo();
+		List<String> input_info = syntax.getInputInfo();
+		List<String> output_info = syntax.getOutputInfo();
+		List<String> error_info = syntax.getErrorInfo();
 
 		for (int i = 0; i < stack_info.size(); i++) {
 			System.out.print(stack_info.get(i) + "\t\t\t\t\t\t\t\t");
 			System.out.print(input_info.get(i) + "\t\t\t\t\t\t\t\t");
 			System.out.println(output_info.get(i));
 		}
-		DrawTree(n);
+
+		for (int i = 0; i < error_info.size(); i++)
+			System.out.println(error_info.get(i));
+
+		//DrawTree(n);
 	}
 
-	public static List<Node> scan(Node n, List<Pair<String, String>> stack_info, List<String> input_info, List<String> output_info, Lexer lexer) {
+	private void scan(Node n, Lexer lexer) {
 
 		//过程栈
 		Stack<String> stack = new Stack<>();
@@ -136,8 +172,6 @@ public class Syntax {
 		Node tmpnode;
 		int nowline = 1;
 		int i;
-
-		List<Node> treeNode = new ArrayList<>();
 
 		String top;
 		String tmp_stack_info = "";
@@ -166,13 +200,13 @@ public class Syntax {
 				tmpstack = (Stack<String>) stack.clone();
 				while (!tmpstack.isEmpty())
 					tmp_stack_info = tmpstack.pop() + tmp_stack_info;
-				stack_info.add(new Pair<>(nowline + "", tmp_stack_info));
+				stackInfo.add(new Pair<>(nowline + "", tmp_stack_info));
 				tmp_stack_info = "";
 
 				//输出当前输入输出信息
-				input_info.add(tmp_input_info);
+				inputInfo.add(tmp_input_info);
 				if (tmp_output_info != "")
-					output_info.add(tmp_output_info);
+					outputInfo.add(tmp_output_info);
 
 				while (true) {
 
@@ -229,7 +263,8 @@ public class Syntax {
 								stack.push("stmts");
 								treeStack.push(new Node("stmts"));
 								tmp_output_info = "line " + nowline + " error token " + line.get(i).getFirst() + " ,may need {";
-								output_info.add(tmp_output_info);
+								errorInfo.add(tmp_output_info);
+								outputInfo.add(tmp_output_info);
 								tmp_output_info = "";
 							} else {
 								stack.push(top);
@@ -258,7 +293,8 @@ public class Syntax {
 								if (ptokenString.equals(""))
 									ptokenString += top;
 								tmp_output_info += ptokenString;
-								output_info.add(tmp_output_info);
+								errorInfo.add(tmp_output_info);
+								outputInfo.add(tmp_output_info);
 								tmp_output_info = "";
 
 								//回滚到上一次的stmts
@@ -280,11 +316,11 @@ public class Syntax {
 					while (!tmpstack.isEmpty()) {
 						tmp_stack_info = tmpstack.pop() + tmp_stack_info;
 					}
-					stack_info.add(new Pair<>(nowline + "", tmp_stack_info));
+					stackInfo.add(new Pair<>(nowline + "", tmp_stack_info));
 					tmp_stack_info = "";
-					input_info.add(tmp_input_info);
+					inputInfo.add(tmp_input_info);
 					if (tmp_output_info != "")
-						output_info.add(tmp_output_info);
+						outputInfo.add(tmp_output_info);
 				}
 
 				//单独处理缺失";"
@@ -299,16 +335,17 @@ public class Syntax {
 					tmpstack = (Stack<String>) stack.clone();
 					while (!tmpstack.isEmpty())
 						tmp_stack_info = tmpstack.pop() + tmp_stack_info;
-					stack_info.add(new Pair<>(nowline + "", tmp_stack_info));
+					stackInfo.add(new Pair<>(nowline + "", tmp_stack_info));
 					tmp_stack_info = "";
-					input_info.add(tmp_input_info);
+					inputInfo.add(tmp_input_info);
 					if (tmp_output_info != "")
-						output_info.add(tmp_output_info);
+						outputInfo.add(tmp_output_info);
 
 					while (!stack.peek().equals("stmts"))
 						stack.pop();
 					tmp_output_info = "line " + nowline + " error line ,may need " + ptoken;
-					output_info.add(tmp_output_info);
+					errorInfo.add(tmp_output_info);
+					outputInfo.add(tmp_output_info);
 					tmp_output_info = "";
 					break;
 				}
@@ -321,14 +358,9 @@ public class Syntax {
 		}
 
 		if (stack.isEmpty())
-			output_info.add("success");
+			outputInfo.add("success");
 		else
-			output_info.add("fail");
-
-
-//		for (Node node : treeNode)
-//			DrawTree(node);
-		return treeNode;
+			outputInfo.add("fail");
 
 	}
 

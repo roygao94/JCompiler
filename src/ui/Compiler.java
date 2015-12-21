@@ -6,10 +6,10 @@
 package ui;
 
 import io.Pair;
-import processing.Lexer;
-import processing.Syntax;
-import tree.Node;
+import processing.*;
+import tree.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,9 +202,6 @@ public class Compiler extends javax.swing.JFrame {
 		jTextArea3.setText("");
 		jTextArea4.setText("");
 		Node n = new Node("Program");
-		List<Pair<String, String>> stack_info = new ArrayList<>();
-		List<String> input_info = new ArrayList<>();
-		List<String> output_info = new ArrayList<>();
 
 		List<String> input = new ArrayList<>();
 
@@ -213,14 +210,18 @@ public class Compiler extends javax.swing.JFrame {
 			input.add(line);
 
 		Lexer lexer = new Lexer(input);
-		Syntax.scan(n, stack_info, input_info, output_info, lexer);
+		Syntax syntax = new Syntax(n,lexer);
 
-		if (stack_info.get(i).getFirst() != null) {
-			for (int j = 0; j < stack_info.size(); j++)
-				if (stack_info.get(j).getFirst().equals(i + "")) {
-					_stack += stack_info.get(j).getFirst() + " " + stack_info.get(j).getSecond() + "\n";
-					_input += stack_info.get(j).getFirst() + " " + input_info.get(j) + "\n";
-					_output += stack_info.get(j).getFirst() + " " + output_info.get(j) + "\n";
+		List<Pair<String, String>> stackInfo = syntax.getStackInfo();
+		List<String> inputInfo = syntax.getInputInfo();
+		List<String> outputInfo = syntax.getOutputInfo();
+
+		if (stackInfo.get(i).getFirst() != null) {
+			for (int j = 0; j < stackInfo.size(); j++)
+				if (stackInfo.get(j).getFirst().equals(i + "")) {
+					_stack += stackInfo.get(j).getFirst() + " " + stackInfo.get(j).getSecond() + "\n";
+					_input += stackInfo.get(j).getFirst() + " " + inputInfo.get(j) + "\n";
+					_output += stackInfo.get(j).getFirst() + " " + outputInfo.get(j) + "\n";
 				}
 		}
 		i++;
