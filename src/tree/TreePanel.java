@@ -139,13 +139,13 @@ public class TreePanel extends JPanel {
 		Queue<Node> queue = new LinkedBlockingQueue<>();
 		List<Node> currList = new ArrayList<>();
 		List<Node> fatherList = new ArrayList<>();
-		int rootLyyer = n.getLayer();
-		int currLayer = rootLyyer;
+		int rootLayer = n.getLayer();
+		int currLayer = rootLayer;
 		queue.offer(n);
 
 		while (!queue.isEmpty()) {
 			Node curr = queue.poll();
-			int layer = curr.getLayer() - rootLyyer;
+			int layer = curr.getLayer() - rootLayer;
 			if (layer != currLayer) {
 				int y = currLayer * (vGap + gridHeight) + startY;
 				int fontY = y + gridHeight - 5;

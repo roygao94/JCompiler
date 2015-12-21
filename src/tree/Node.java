@@ -72,7 +72,7 @@ public class Node {
 		if (n.hasChild()) {
 			List<Node> c = n.getChilds();
 			for (Node node : c) {
-				node.setLayer(node.getLayer() + 1);
+				node.setLayer(n.getLayer() + 1);
 				setChildLayout(node);
 			}
 		}
