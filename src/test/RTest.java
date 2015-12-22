@@ -2,18 +2,15 @@ package test;
 
 import processing.Lexer;
 import processing.Syntax;
-import tree.DrawTree;
+import tree.DrawSlowly;
 import tree.Node;
 
-import javax.swing.*;
 import java.io.IOException;
 
 /**
  * Created by Roy Gao on 12/21/2015.
  */
 public class RTest {
-
-	private static Node copyOfRoot;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -37,35 +34,26 @@ public class RTest {
 
 		root = new Node("program");
 		Syntax syntax = new Syntax(root, new Lexer("test.txt"));
-		copyOfRoot = new Node(root);
-		dfs(copyOfRoot);
+		DrawSlowly rTest = new DrawSlowly(root);
+		rTest.drawStepByStep();
 	}
 
-	private static boolean first = true;
-	private static DrawTree frame;
-
-	private static void dfs(Node node) throws InterruptedException {
-		node.setVisited(true);
-		if (first) {
-			frame = new DrawTree(copyOfRoot);
-			first = false;
-		} else
-			frame.initComponents(copyOfRoot);
-
-		frame.setSize(800, 1000);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Thread.sleep(1000);
-
-		if (node.hasChild())
-			for (Node child : node.getChilds())
-				dfs(child);
-
-		node.setVisited(false);
-		frame.initComponents(copyOfRoot);
-		frame.setSize(800, 1000);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Thread.sleep(1000);
-	}
+//	public void draw() throws InterruptedException {
+//		dfs(root);
+//	}
+//
+//	private void dfs(Node node) throws InterruptedException {
+//		frame.draw(root);
+//
+//		if (node.hasChild())
+//			for (Node child : node.getChilds())
+//				child.setVisited(true);
+//
+//		if (node.hasChild())
+//			for (Node child : node.getChilds())
+//				dfs(child);
+//
+//		node.setVisited(false);
+//		frame.draw(root);
+//	}
 }
