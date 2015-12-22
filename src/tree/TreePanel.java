@@ -33,6 +33,7 @@ public class TreePanel extends JPanel {
 	private int childAlign;                        //孩子对齐方式
 	public static int CHILD_ALIGN_ABSOLUTE = 0;    //相对Panel居中
 	public static int CHILD_ALIGN_RELATIVE = 1;    //相对父结点居中
+
 	private int depthOrBroad;
 	public final static int DEPTH_FIRST = 0;
 	public final static int BROAD_FIRST = 1;

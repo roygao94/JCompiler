@@ -3,7 +3,6 @@ package processing;
 import io.Token;
 import tree.Node;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,38 +29,35 @@ public class Semantics {
 		transition(treeNode, tokens);
 	}
 
-	public static void main(String[] args) throws IOException {
-		Node n = new Node("program");
-
-		Lexer lexer = new Lexer("test.txt");
-		List<Token> _tokens = lexer.getTokenList();
-
-		Syntax syntax = new Syntax(n, lexer);
-		List<Node> _treeNode = syntax.getTreeNode();
-		List<String> _syntaxError = syntax.getErrorInfo();
-
-		Semantics semantics;
-
-		if (_syntaxError.size() == 0) {
-			semantics = new Semantics(_treeNode, _tokens);
-			List<String> _threeAddressInfo = semantics.getThreeAddressInfo();
-			List<String> _semanticsErrorInfo = semantics.getErrorInfo();
-			if (_semanticsErrorInfo.size() == 0)
-				for (String string : _threeAddressInfo)
-					System.out.print(string);
-			else
-				for (String string : _semanticsErrorInfo)
-					System.out.println(string);
-		} else
-			System.out.println("语法分析出错！");
-
-		for (Node node : _treeNode)
-			Syntax.DrawTree(node);
-
-//		System.out.println("Token list size :\t" + tokens.size());
-//		for (Token token : tokens)
+//	public static void main(String[] args) throws IOException{
+//		Node n = new Node("program");
+//
+//		Lexer lexer = new Lexer("test.txt");
+//		List<Token> _tokens = lexer.getTokenList();
+//
+//		Syntax syntax = new Syntax(n, lexer);
+//		List<Node> _treeNode = syntax.getTreeNode();
+//		List<String> _syntaxError = syntax.getErrorInfo();
+//
+//		Semantics semantics;
+//
+//		if (_syntaxError.size() == 0) {
+//			semantics = new Semantics(_treeNode, _tokens);
+//			List<String> _threeAddressInfo = semantics.getThreeAddressInfo();
+//			List<String> _semanticsErrorInfo = semantics.getErrorInfo();
+//			if (_semanticsErrorInfo.size() == 0)
+//				for (String string : _threeAddressInfo)
+//					System.out.print(string);
+//			else
+//				for (String string : _semanticsErrorInfo)
+//					System.out.print(string);
+//		} else
+//			System.out.println("语法分析出错！");
+//
+//		System.out.println("Token list size :\t" + _tokens.size());
+//		for (Token token : _tokens)
 //			System.out.println(token);
-	}
+//	}
 
 	private void transition(List<Node> treeNode, List<Token> tokens) {
 		String stmt;
@@ -257,7 +253,8 @@ public class Semantics {
 					break;
 				case (")"):
 					if (treeNode.get(0).getName().equals("while")) {
-						System.out.println("jumpf " + treeNode.get(2).getVal() + ",," + "b" + j);
+						//System.out.println("jumpf " + treeNode.get(2).getVal() + ",," + "b" + j);
+						threeAddressInfo.add("jumpf " + treeNode.get(2).getVal() + ",," + "b" + j + "\n");
 						treeNode.get(4).setVal("b" + j);
 						j++;
 					}

@@ -5,6 +5,7 @@ import io.Token;
 import processing.Lexer;
 import processing.Semantics;
 import processing.Syntax;
+import tree.DrawSlowly;
 import tree.Node;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class test {
 	// I'm another comment!
 	// Hello, Kevin, this is a comment.
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		Node n = new Node("Program");
 
@@ -37,9 +38,6 @@ public class test {
 		List<String> syntaxErrorInfo = syntax.getErrorInfo();
 		List<Node> treeNode = syntax.getTreeNode();
 
-//		for (Node node : treeNode)
-//			Syntax.DrawTree(node);
-
 		Semantics semantics;
 
 		if (syntaxErrorInfo.size() == 0) {
@@ -54,19 +52,29 @@ public class test {
 			List<String> threeAddressInfo = semantics.getThreeAddressInfo();
 			List<String> semanticsErrorInfo = semantics.getErrorInfo();
 
+			//总树
+			syntax.DrawTree(n);
+			//分支树
+			for (Node node : treeNode)
+				syntax.DrawTree(node);
+
 			if (semanticsErrorInfo.size() == 0) {
 				for (String string : threeAddressInfo)
 					System.out.print(string);
 				System.out.println("\n");
 				for (Token string : tokens)
 					System.out.println(string);
+
+				//动态画树
+				DrawSlowly tree = new DrawSlowly();
+				tree.drawStepByStep(n, 1000);
+
 			} else
 				for (String string : semanticsErrorInfo)
 					System.out.println(string);
 		} else
 			for (String string : syntaxErrorInfo)
 				System.out.println(string);
-
 
 	}
 }

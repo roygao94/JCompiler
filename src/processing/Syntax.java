@@ -4,8 +4,6 @@ import io.Pair;
 import tree.DrawTree;
 import tree.Node;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -125,7 +123,7 @@ public class Syntax {
 		return errorInfo;
 	}
 
-	public List<Node> getTreeNode(){
+	public List<Node> getTreeNode() {
 		return treeNode;
 	}
 
@@ -133,28 +131,27 @@ public class Syntax {
 		scan(n, lexer);
 	}
 
-	public static void main(String[] args) throws IOException {
-		Node n = new Node("program");
-
-		Lexer lexer = new Lexer("test.txt");
-		Syntax syntax = new Syntax(n, lexer);
-
-		List<Pair<String, String>> stack_info = syntax.getStackInfo();
-		List<String> input_info = syntax.getInputInfo();
-		List<String> output_info = syntax.getOutputInfo();
-		List<String> error_info = syntax.getErrorInfo();
-
-		for (int i = 0; i < stack_info.size(); i++) {
-			System.out.print(stack_info.get(i) + "\t\t\t\t\t\t\t\t");
-			System.out.print(input_info.get(i) + "\t\t\t\t\t\t\t\t");
-			System.out.println(output_info.get(i));
-		}
-
-		for (int i = 0; i < error_info.size(); i++)
-			System.out.println(error_info.get(i));
-
-		DrawTree(n);
-	}
+//	public static void main(String[] args) throws IOException {
+//		Node n = new Node("program");
+//
+//		Lexer lexer = new Lexer("test.txt");
+//		Syntax syntax = new Syntax(n, lexer);
+//
+//		List<Pair<String, String>> stack_info = syntax.getStackInfo();
+//		List<String> input_info = syntax.getInputInfo();
+//		List<String> output_info = syntax.getOutputInfo();
+//		List<String> error_info = syntax.getErrorInfo();
+//
+//		for (int i = 0; i < stack_info.size(); i++) {
+//			System.out.print(stack_info.get(i) + "\t\t\t\t\t\t\t\t");
+//			System.out.print(input_info.get(i) + "\t\t\t\t\t\t\t\t");
+//			System.out.println(output_info.get(i));
+//		}
+//
+//		for (int i = 0; i < error_info.size(); i++)
+//			System.out.println(error_info.get(i));
+//
+//	}
 
 	private void scan(Node n, Lexer lexer) {
 
@@ -321,6 +318,7 @@ public class Syntax {
 					inputInfo.add(tmp_input_info);
 					if (tmp_output_info != "")
 						outputInfo.add(tmp_output_info);
+
 				}
 
 				//单独处理缺失";"
