@@ -12,12 +12,21 @@ import java.awt.*;
  */
 public class DrawTree extends JFrame {
 
+	public DrawTree() {
+		super("Draw Tree");
+	}
+
 	public DrawTree(Node n) {
-		super("Draw tree");
+		super("Draw Tree");
 		initComponents(n);
 	}
 
-	public static void main(String[] args) {
+	public void draw(Node n) throws InterruptedException {
+		initComponents(n);
+		setSize(800, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		Thread.sleep(2000);
 	}
 
 	public void initComponents(Node n) {
