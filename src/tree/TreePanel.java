@@ -33,6 +33,9 @@ public class TreePanel extends JPanel {
 	private int childAlign;                        //孩子对齐方式
 	public static int CHILD_ALIGN_ABSOLUTE = 0;    //相对Panel居中
 	public static int CHILD_ALIGN_RELATIVE = 1;    //相对父结点居中
+	private int depthOrBroad;
+	public final static int DEPTH_FIRST = 0;
+	public final static int BROAD_FIRST = 1;
 
 	private Font font = new Font("", Font.BOLD, 14);    //描述结点的字体
 
@@ -45,7 +48,7 @@ public class TreePanel extends JPanel {
 	 * 默认构造
 	 */
 	public TreePanel() {
-		this(null, CHILD_ALIGN_ABSOLUTE);
+		this(null, CHILD_ALIGN_ABSOLUTE, DEPTH_FIRST);
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class TreePanel extends JPanel {
 	 * @param n 要绘制的树
 	 */
 	public TreePanel(Node n) {
-		this(n, CHILD_ALIGN_ABSOLUTE);
+		this(n, CHILD_ALIGN_ABSOLUTE, DEPTH_FIRST);
 	}
 
 	/**
@@ -64,8 +67,8 @@ public class TreePanel extends JPanel {
 	 * @see tree.TreePanel#CHILD_ALIGN_RELATIVE
 	 * @see tree.TreePanel#CHILD_ALIGN_ABSOLUTE
 	 */
-	public TreePanel(int childAlign) {
-		this(null, childAlign);
+	public TreePanel(int childAlign, int depthOrBroad) {
+		this(null, childAlign, depthOrBroad);
 	}
 
 	/**
@@ -74,10 +77,11 @@ public class TreePanel extends JPanel {
 	 * @param n          要绘制的树的根结点
 	 * @param childAlign 对齐策略
 	 */
-	public TreePanel(Node n, int childAlign) {
+	public TreePanel(Node n, int childAlign, int depthOrBroad) {
 		super();
 		setTree(n);
 		this.childAlign = childAlign;
+		this.depthOrBroad = depthOrBroad;
 	}
 
 	/**
@@ -96,19 +100,21 @@ public class TreePanel extends JPanel {
 		g.setFont(font);
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
-//		drawAllNode(tree, startX, g);
-//		drawAllNodeBFS(tree, startX, g);
-		drawAllNodeBFSNew(tree, startX, g);
+		if (depthOrBroad == DEPTH_FIRST)
+			drawAllNodeDepthFirst(tree, startX, g);
+		else if (depthOrBroad == BROAD_FIRST)
+			drawAllNodeBroadFirst(tree, startX, g);
 	}
 
 	/**
 	 * 递归绘制整棵树
 	 *
-	 * @param n    被绘制的Node
+	 * @param n 被绘制的Node
 	 * @param x 根节点的绘制X位置
-	 * @param g    绘图上下文环境
+	 * @param g 绘图上下文环境
 	 */
-	public void drawAllNode(Node n, int x, Graphics g) {
+	public void drawAllNodeDepthFirst(Node n, int x, Graphics g) {
+		if (n.notVisited()) return;
 		int y = n.getLayer() * (vGap + gridHeight) + startY;
 		int fontY = y + gridHeight - 5;        //5为测试得出的值，你可以通过FM计算更精确的，但会影响速度
 
@@ -128,15 +134,17 @@ public class TreePanel extends JPanel {
 			int i = 0;
 			for (Node node : c) {
 				int newX = tempPosx + (gridWidth + hGap) * i;    //孩子结点起始X
-				g.setColor(linkLineColor);
-				g.drawLine(x + gridWidth / 2, y + gridHeight, newX + gridWidth / 2, y + gridHeight + vGap);    //画连接结点的线
-				drawAllNode(node, newX, g);
+				if (!node.notVisited()) {
+					g.setColor(linkLineColor);
+					g.drawLine(x + gridWidth / 2, y + gridHeight, newX + gridWidth / 2, y + gridHeight + vGap);    //画连接结点的线
+					drawAllNodeDepthFirst(node, newX, g);
+				}
 				i++;
 			}
 		}
 	}
 
-	public void drawAllNodeBFS(Node n, int x, Graphics g) {
+	public void drawAllNodeBroadFirst(Node n, int x, Graphics g) {
 		Queue<Node> queue = new LinkedBlockingQueue<>();
 		List<Node> currList = new ArrayList<>();
 		List<Node> fatherList = new ArrayList<>();
@@ -213,7 +221,7 @@ public class TreePanel extends JPanel {
 		}
 	}
 
-	public void drawAllNodeBFSNew(Node n, int x, Graphics g) {
+	public void drawAllNodeBroadFirstNew(Node n, int x, Graphics g) {
 		Queue<Node> queue = new LinkedBlockingQueue<>();
 		List<Node> currList = new ArrayList<>();
 		List<Node> fatherList = new ArrayList<>();

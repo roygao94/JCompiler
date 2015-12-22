@@ -95,7 +95,7 @@ public class TreePanelForDFS extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		drawAllNode(tree, startX, g);
 //		drawAllNodeBFS(tree, startX, g);
-//		drawAllNodeBFSNew(tree, startX, g);
+//		drawAllNodeBroadFirst(tree, startX, g);
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class TreePanelForDFS extends JPanel {
 //		}
 //	}
 //
-//	public void drawAllNodeBFSNew(Node n, int x, Graphics g) {
+//	public void drawAllNodeBroadFirst(Node n, int x, Graphics g) {
 //		Queue<Node> queue = new LinkedBlockingQueue<>();
 //		List<Node> currList = new ArrayList<>();
 //		List<Node> fatherList = new ArrayList<>();

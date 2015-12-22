@@ -34,16 +34,16 @@ public class RTest {
 
 		root = new Node("program");
 		Syntax syntax = new Syntax(root, new Lexer("test.txt"));
-		DrawSlowly rTest = new DrawSlowly(root);
-		rTest.drawStepByStep();
+		DrawSlowly rTest = new DrawSlowly();
+		rTest.drawStepByStep(root, 2000);
 	}
 
-//	public void draw() throws InterruptedException {
+//	public void depthFirstDraw() throws InterruptedException {
 //		dfs(root);
 //	}
 //
 //	private void dfs(Node node) throws InterruptedException {
-//		frame.draw(root);
+//		frame.depthFirstDraw(root);
 //
 //		if (node.hasChild())
 //			for (Node child : node.getChilds())
@@ -54,6 +54,6 @@ public class RTest {
 //				dfs(child);
 //
 //		node.setVisited(false);
-//		frame.draw(root);
+//		frame.depthFirstDraw(root);
 //	}
 }
