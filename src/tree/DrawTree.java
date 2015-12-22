@@ -16,21 +16,36 @@ public class DrawTree extends JFrame {
 		super("Draw Tree");
 	}
 
-	public DrawTree(Node n) {
-		super("Draw Tree");
-		initComponents(n);
-	}
+//	public DrawTree(Node n) {
+//		super("Draw Tree");
+//		initComponents(n, TreePanel.BROAD_FIRST);
+//	}
 
-	public void draw(Node n) throws InterruptedException {
-		initComponents(n);
+	public void depthFirstDraw(Node n) throws InterruptedException {
+		initComponents(n, TreePanel.DEPTH_FIRST);
 		setSize(800, 1000);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Thread.sleep(2000);
 	}
 
-	public void initComponents(Node n) {
-		TreePanelForDFS panel1 = new TreePanelForDFS(TreePanelForDFS.CHILD_ALIGN_RELATIVE);
+	public void depthFirstDraw(Node n, long sleep) throws InterruptedException {
+		initComponents(n, TreePanel.DEPTH_FIRST);
+		setSize(800, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		Thread.sleep(sleep);
+	}
+
+	public void broadFirstDraw(Node n) {
+		initComponents(n, TreePanel.BROAD_FIRST);
+		setSize(800, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+
+	public void initComponents(Node n, int depthOrBroad) {
+		TreePanel panel1 = new TreePanel(TreePanel.CHILD_ALIGN_RELATIVE, depthOrBroad);
 		panel1.setTree(n);
 
 		JPanel contentPane = new JPanel();

@@ -153,7 +153,7 @@ public class Syntax {
 		for (int i = 0; i < error_info.size(); i++)
 			System.out.println(error_info.get(i));
 
-		//DrawTree(n);
+		DrawTree(n);
 	}
 
 	private void scan(Node n, Lexer lexer) {
@@ -365,10 +365,8 @@ public class Syntax {
 	}
 
 	public static void DrawTree(Node n) {
-		DrawTree frame = new DrawTree(n);
-		frame.setSize(800, 1000);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		DrawTree frame = new DrawTree();
+		frame.broadFirstDraw(n);
 	}
 
 }
