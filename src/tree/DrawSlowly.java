@@ -16,7 +16,8 @@ public class DrawSlowly {
 	}
 
 	public void drawStepByStep() throws InterruptedException {
-		dfs(root);
+//		dfs(root);
+		dfsEvenMoreSlowly(root);
 	}
 
 	private void dfs(Node node) throws InterruptedException {
@@ -29,6 +30,23 @@ public class DrawSlowly {
 		if (node.hasChild())
 			for (Node child : node.getChilds())
 				dfs(child);
+
+		node.setVisited(false);
+		frame.draw(root);
+	}
+
+	private void dfsEvenMoreSlowly(Node node) throws InterruptedException {
+//		frame.draw(root);
+
+		if (node.hasChild())
+			for (Node child : node.getChilds()) {
+				child.setVisited(true);
+				frame.draw(root);
+			}
+
+		if (node.hasChild())
+			for (Node child : node.getChilds())
+				dfsEvenMoreSlowly(child);
 
 		node.setVisited(false);
 		frame.draw(root);

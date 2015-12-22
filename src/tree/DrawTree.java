@@ -22,11 +22,11 @@ public class DrawTree extends JFrame {
 	}
 
 	public void draw(Node n) throws InterruptedException {
-		Thread.sleep(2000);
 		initComponents(n);
 		setSize(800, 1000);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		Thread.sleep(2000);
 	}
 
 	public void initComponents(Node n) {
