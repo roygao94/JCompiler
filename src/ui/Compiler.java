@@ -7,9 +7,9 @@ package ui;
 
 import io.Pair;
 import processing.*;
+import test.RTest;
 import tree.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,6 +229,13 @@ public class Compiler extends javax.swing.JFrame {
 		jTextArea3.setText(_input);
 		jTextArea4.setText(_output);
 		//Syntax.DrawTree(n);
+
+		try {
+			Runtime rt = Runtime.getRuntime();
+			rt.exec("java -jar RTest.jar");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
