@@ -195,6 +195,10 @@ public class Syntax {
 			for (i = 0; i < line.size(); i++) {
 
 				String token = line.get(i).getSecond();
+				if (token.startsWith("//")) {
+					tmp_input_info = tmp_input_info.substring(line.get(i).getFirst().length());
+					continue;
+				}
 
 				boolean errorflag = true;
 				int length = 0;
