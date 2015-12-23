@@ -337,5 +337,24 @@ public class Lexer {
 		return list;
 	}
 
-//	public List<String> beautifulCode(List<List<Pair<String, String>>> originalCode) {}
+	public List<String> getBeautifulCode(List<List<Pair<String, String>>> originalCode) {
+		List<String> beautifulCode = new ArrayList<>();
+		String beautifulLine;
+		int base = 0;
+		for (List<Pair<String, String>> line : originalCode) {
+			if (line.get(0).getFirst().equals("}"))
+				base--;
+			beautifulLine = "";
+			for (int i = 0; i < base; ++i)
+				beautifulLine += "    ";
+			for (int i = 0; i < line.size() - 1; ++i)
+				beautifulLine += line.get(i).getFirst() + " ";
+			beautifulLine += line.get(line.size() - 1).getFirst();
+			if (beautifulLine.endsWith("{"))
+				base++;
+			beautifulCode.add(beautifulLine);
+		}
+
+		return beautifulCode;
+	}
 }

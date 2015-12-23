@@ -2,9 +2,6 @@ package test;
 
 import io.Pair;
 import processing.Lexer;
-import processing.Syntax;
-import tree.DrawSlowly;
-import tree.Node;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,21 +16,24 @@ public class RTest {
 
 		Lexer lexer = new Lexer("source.txt");
 		List<List<Pair<String, String>>> source = lexer.getOriginalCode();
-		String input = "";
-		for (List<Pair<String, String>> line : source) {
-			for (Pair<String, String> token : line)
-				input += token.getFirst() + " ";
-			input += "\n";
-		}
+//		String input = "";
+//		for (List<Pair<String, String>> line : source) {
+//			for (Pair<String, String> token : line)
+//				input += token.getFirst() + " ";
+//			input += "\n";
+//		}
 
-		System.out.println(input);
+		List<String> input = lexer.getBeautifulCode(source);
 
-		String[] source2 = input.split("\n");
-		List<String> list = new ArrayList<>();
-		for (String line : source2)
-			list.add(line);
+		for(String line : input)
+			System.out.println(line);
 
-		Lexer lexer1 = new Lexer(list);
+//		String[] source2 = input.split("\n");
+//		List<String> list = new ArrayList<>();
+//		for (String line : source2)
+//			list.add(line);
+
+//		Lexer lexer1 = new Lexer(list);
 
 		Runtime runtime = Runtime.getRuntime();
 		runtime.exec("java -jar RDraw.jar");
