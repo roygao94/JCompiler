@@ -31,6 +31,10 @@ public class DrawSlowly {
 
 	private void dfs(Node node) throws InterruptedException {
 		frame.depthFirstDraw(root, sleepTime);
+		if (node == root) {
+			System.out.println("sleep............");
+			Thread.sleep(10000);
+		}
 
 		if (node.hasChild())
 			for (Node child : node.getChilds())
@@ -41,10 +45,15 @@ public class DrawSlowly {
 				dfs(child);
 
 		node.setVisited(false);
-		frame.depthFirstDraw(this.root, sleepTime);
+		frame.depthFirstDraw(root, sleepTime);
 	}
 
 	private void dfsEvenMoreSlowly(Node node) throws InterruptedException {
+		if (node == root) {
+			frame.depthFirstDraw(root, sleepTime);
+			Thread.sleep(1000);
+		}
+
 		if (node.hasChild())
 			for (Node child : node.getChilds()) {
 				child.setVisited(true);
