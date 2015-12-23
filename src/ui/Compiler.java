@@ -643,6 +643,9 @@ public class Compiler extends javax.swing.JFrame {
 		jLabel3.setText("");
 		jLabel4.setText("");
 		i = 1;
+		_sInfo = "";
+		_input = "";
+		_output = "";
 	}
 
 	private void AboutActionPerformed(java.awt.event.ActionEvent evt) {
