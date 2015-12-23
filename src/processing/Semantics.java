@@ -3,6 +3,7 @@ package processing;
 import io.Token;
 import tree.Node;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class Semantics {
 					transition(tmpnode, tokens);
 					if (node.getChilds().get(0).getType().equals("int") && node.getChilds().get(2).getVal().indexOf(".") != -1)
 						//System.out.println("real类型值无法赋值给int");
-						errorInfo.add("real类型值无法赋值给int" + "\n");
+						errorInfo.add("Real value can't assign to type int" + "\n");
 					else {
 						for (Token token : tokens)
 							if (token.getKey().equals(node.getChilds().get(0).getVal()) && token.isDecl())
@@ -189,11 +190,11 @@ public class Semantics {
 								token.setDecl(true);
 							} else if (node.getType() != "" && token.getValue() != "") {
 								//System.out.println("重复申明变量" + node.getVal());
-								errorInfo.add("重复申明变量" + node.getVal() + "\n");
+								errorInfo.add("Repeated declaration variable: " + node.getVal() + "\n");
 								token.setDecl(false);
-							} else if (token.getValue() == "") {
+							} else if (node.getType() == "" && token.getValue() == "") {
 								//System.out.println("未申明变量" + node.getVal());
-								errorInfo.add("未申明变量" + node.getVal() + "\n");
+								//errorInfo.add("Not declare variable: " + node.getVal() + "\n");
 								token.setDecl(false);
 							} else
 								node.setType(token.getValue());
@@ -263,4 +264,3 @@ public class Semantics {
 		}
 	}
 }
-

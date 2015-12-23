@@ -236,8 +236,8 @@ public class Lexer {
 					formatedLine.add("NUM");
 
 				} else {
-					System.out.print(line + "," + i);
-					System.out.println("error");
+//					System.out.print(line + "," + i);
+//					System.out.println("error");
 					i = line.length();
 				}
 			}
