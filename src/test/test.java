@@ -52,11 +52,11 @@ public class test {
 			List<String> threeAddressInfo = semantics.getThreeAddressInfo();
 			List<String> semanticsErrorInfo = semantics.getErrorInfo();
 
-			//总树
-			syntax.DrawTree(n);
-			//分支树
-			for (Node node : treeNode)
-				syntax.DrawTree(node);
+//			//总树
+//			syntax.DrawTree(n);
+//			//分支树
+//			for (Node node : treeNode)
+//				syntax.DrawTree(node);
 
 			if (semanticsErrorInfo.size() == 0) {
 				for (String string : threeAddressInfo)
@@ -65,9 +65,9 @@ public class test {
 				for (Token string : tokens)
 					System.out.println(string);
 
-				//动态画树
-				DrawSlowly tree = new DrawSlowly();
-				tree.drawStepByStep(n, 1000);
+//				//动态画树
+//				DrawSlowly tree = new DrawSlowly();
+//				tree.drawStepByStep(n, 1000);
 
 			} else
 				for (String string : semanticsErrorInfo)
@@ -75,6 +75,12 @@ public class test {
 		} else
 			for (String string : syntaxErrorInfo)
 				System.out.println(string);
+
+		for (int i = 0; i < stackInfo.size(); i++) {
+			System.out.print(stackInfo.get(i) + "\t\t\t\t\t\t\t\t");
+			System.out.print(inputInfo.get(i) + "\t\t\t\t\t\t\t\t");
+			System.out.println(outputInfo.get(i));
+		}
 
 	}
 }

@@ -35,8 +35,8 @@ public class RTest {
 
 		Lexer lexer1 = new Lexer(list);
 
-		Runtime runtime = Runtime.getRuntime();
-		runtime.exec("java -jar RDraw.jar");
+//		Runtime runtime = Runtime.getRuntime();
+//		runtime.exec("java -jar RDraw.jar");
 //
 //		Node root = new Node("root");
 //		Node child = new Node("child");
