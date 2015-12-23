@@ -121,6 +121,10 @@ public class Lexer {
 
 					originalLine.add(new Pair<>(comment, comment));
 					formatedLine.add(comment);
+					originalCode.add(originalLine);
+					originalLine = new ArrayList<>();
+					formatedCode.add(formatedLine);
+					formatedLine = new ArrayList<>();
 
 				} else if (Character.isLetter(line.charAt(i))) {
 					// keyword or identifiers
@@ -244,6 +248,10 @@ public class Lexer {
 //			}
 		}
 
+		if (!formatedLine.isEmpty()) {
+			originalCode.add(originalLine);
+			formatedCode.add(formatedLine);
+		}
 
 		for (String token : tokens)
 			codeList.add(new Pair<>(token, map.get(token)));
