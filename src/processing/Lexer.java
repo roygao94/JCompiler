@@ -103,9 +103,9 @@ public class Lexer {
 	 */
 	private void scan(List<String> code) {
 
+		List<Pair<String, String>> originalLine = new ArrayList<>();
+		List<String> formatedLine = new ArrayList<>();
 		for (String line : code) {
-			List<Pair<String, String>> originalLine = new ArrayList<>();
-			List<String> formatedLine = new ArrayList<>();
 
 			for (int i = 0; i < line.length(); ) {
 				// 扫空格
@@ -163,14 +163,37 @@ public class Lexer {
 					// delimeters
 					tokens.add("" + line.charAt(i));
 					map.put("" + line.charAt(i), DEL);
-
-					originalLine.add(new Pair<>("" + line.charAt(i), "" + line.charAt(i)));
-					formatedLine.add("" + line.charAt(i));
-					if (line.charAt(i) == ';' || line.charAt(i) == '{' || line.charAt(i) == '}') {
+					if (line.charAt(i) == '{') {
+						originalLine.add(new Pair<>("{", "{"));
+						formatedLine.add("{");
 						originalCode.add(originalLine);
 						originalLine = new ArrayList<>();
 						formatedCode.add(formatedLine);
 						formatedLine = new ArrayList<>();
+
+					} else if (line.charAt(i) == '}') {
+						if (!formatedLine.isEmpty()) {
+							originalCode.add(originalLine);
+							originalLine = new ArrayList<>();
+							formatedCode.add(formatedLine);
+							formatedLine = new ArrayList<>();
+						}
+						originalLine.add(new Pair<>("}", "}"));
+						formatedLine.add("}");
+						originalCode.add(originalLine);
+						originalLine = new ArrayList<>();
+						formatedCode.add(formatedLine);
+						formatedLine = new ArrayList<>();
+
+					} else {
+						originalLine.add(new Pair<>("" + line.charAt(i), "" + line.charAt(i)));
+						formatedLine.add("" + line.charAt(i));
+						if (line.charAt(i) == ';') {
+							originalCode.add(originalLine);
+							originalLine = new ArrayList<>();
+							formatedCode.add(formatedLine);
+							formatedLine = new ArrayList<>();
+						}
 					}
 					i++;
 
@@ -215,10 +238,10 @@ public class Lexer {
 				}
 			}
 
-			if (!formatedLine.isEmpty()) {
-				originalCode.add(originalLine);
-				formatedCode.add(formatedLine);
-			}
+//			if (!formatedLine.isEmpty()) {
+//				originalCode.add(originalLine);
+//				formatedCode.add(formatedLine);
+//			}
 		}
 
 
@@ -313,4 +336,6 @@ public class Lexer {
 
 		return list;
 	}
+
+//	public List<String> beautifulCode(List<List<Pair<String, String>>> originalCode) {}
 }
