@@ -1,8 +1,8 @@
 package processing;
 
 import io.Pair;
-import tree.DrawTree;
-import tree.Node;
+import tree.*;
+
 
 import java.util.*;
 
@@ -181,6 +181,12 @@ public class Syntax {
 
 		for (List<Pair<String, String>> line : codeTable) {
 
+			if(stack.isEmpty()) {
+				outputInfo.add("line " + nowline + " error input");
+				errorInfo.add("line " + nowline + " error input");
+				break;
+			}
+
 			//获得当前输入行信息
 			for (Pair<String, String> token : line)
 				tmp_input_info += token.getFirst();
@@ -321,14 +327,11 @@ public class Syntax {
 
 				}
 
-				//单独处理缺失";"
-				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts") && !stack.peek().equals("else")) {
+				if (i == line.size() - 1 && tmp_output_info.equals("match") && (token.equals("then") || token.equals("else")))
+					break;
 
-					String ptoken = ";";
-					if (stack.peek().equals("then"))
-						ptoken = "then";
-					if (stack.peek().equals("else"))
-						ptoken = "else";
+				//单独处理缺失";"
+				if (i == line.size() - 1 && !stack.isEmpty() && !stack.peek().equals("stmts") && !stack.peek().equals("then") && !stack.peek().equals("else") && (!token.equals("{") || !token.equals("}") || !token.equals(";") || !token.equals("$"))) {
 
 					tmpstack = (Stack<String>) stack.clone();
 					while (!tmpstack.isEmpty())
@@ -339,9 +342,10 @@ public class Syntax {
 					if (tmp_output_info != "")
 						outputInfo.add(tmp_output_info);
 
-					while (!stack.peek().equals("stmts"))
+					while (!stack.isEmpty() && !stack.peek().equals("stmts"))
 						stack.pop();
-					tmp_output_info = "line " + nowline + " error line ,may need " + ptoken;
+
+					tmp_output_info = "line " + nowline + " error line ,isn't a legal line";
 					errorInfo.add(tmp_output_info);
 					outputInfo.add(tmp_output_info);
 					tmp_output_info = "";
