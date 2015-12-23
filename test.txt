@@ -1,4 +1,9 @@
 {
-    int a ;
-    a = 4 ;
+    real i , j ;
+    i = 10 ;
+    j = 100 ;
+    while ( i > 0 ) {
+        if ( i > 5 ) then i = i + 2 else j = j - 5 ;
+        i = i1 ;
+    }
 }

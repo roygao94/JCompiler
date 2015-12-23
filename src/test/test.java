@@ -53,7 +53,7 @@ public class test {
 			List<String> semanticsErrorInfo = semantics.getErrorInfo();
 
 //			//总树
-//			syntax.DrawTree(n);
+			syntax.DrawTree(n);
 //			//分支树
 //			for (Node node : treeNode)
 //				syntax.DrawTree(node);

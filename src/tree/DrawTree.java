@@ -31,7 +31,7 @@ public class DrawTree extends JFrame {
 
 	public void depthFirstDraw(Node n, long sleep) throws InterruptedException {
 		initComponents(n, TreePanel.DEPTH_FIRST);
-		setSize(800, 1000);
+		setSize(1500, 1200);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Thread.sleep(sleep);
@@ -39,7 +39,7 @@ public class DrawTree extends JFrame {
 
 	public void broadFirstDraw(Node n) {
 		initComponents(n, TreePanel.BROAD_FIRST);
-		setSize(800, 1000);
+		setSize(1500, 1200);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
