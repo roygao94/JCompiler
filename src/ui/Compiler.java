@@ -416,7 +416,7 @@ public class Compiler extends javax.swing.JFrame {
 				b += token.getKey() + "\t[" + token.getTag() + "]\t" + token.getValue() + "\n";
 
 			for (String token : input)
-				origin += token + " " + "\n";
+				origin += token + "\n";
 
 			try {
 				FileWriter fileWriter = new FileWriter(new File("test.txt"), false);
