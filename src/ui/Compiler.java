@@ -650,7 +650,7 @@ public class Compiler extends javax.swing.JFrame {
 
 	private void AboutActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		String str = "10132510329 束振鹤" + "\n" + "10132510329 高竹" + "\n" + "10132510329 陈恒本" + "\n" + "10132510329 朱柯舟";
+		String str = "10132510329 束振鹤" + "\n" + "10132510331 高竹" + "\n" + "10132510332 陈恒本" + "\n" + "10132510327 朱柯舟";
 		JOptionPane.showMessageDialog(null, str);
 	}
 
